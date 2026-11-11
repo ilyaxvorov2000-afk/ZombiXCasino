@@ -3,125 +3,178 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#10090d">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#100b0d">
 <title>ZombiXCasino</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#10090d;color:white;font-family:Arial,sans-serif;padding-bottom:85px}
-header{padding:22px 18px;background:linear-gradient(135deg,#290b16,#10090d);border-bottom:1px solid #48202c}
-.logo{font-size:27px;font-weight:900;letter-spacing:-1px}
-.logo span{color:#ff304b}
-.tag{color:#a88d96;font-size:10px;letter-spacing:3px;margin-top:5px}
-.balance{margin:18px;padding:20px;border-radius:20px;background:linear-gradient(135deg,#a90e2e,#4c081c);box-shadow:0 8px 30px #0008}
-.balance small{color:#ffd2dc}
-.amount{font-size:29px;font-weight:900;margin:8px 0}
-.btn{border:0;border-radius:12px;padding:12px 17px;background:#ff304b;color:white;font-weight:bold}
-h2{font-size:19px;margin:25px 18px 14px}
-.banner{margin:18px;padding:22px;border-radius:20px;background:linear-gradient(120deg,#5c0925,#ed2448);min-height:125px}
-.banner strong{font-size:23px}
-.banner p{font-size:12px;color:#ffe0e6}
-.games{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:0 15px}
-.game{background:#20131a;border:1px solid #44212d;border-radius:17px;overflow:hidden}
-.game img{width:100%;height:125px;object-fit:cover}
-.gameinfo{padding:12px}
-.gameinfo b{font-size:14px}
-.gameinfo small{display:block;color:#ad929c;margin-top:6px}
-.play{width:100%;margin-top:10px;padding:10px;background:#d51e40;color:white;border:0;border-radius:9px;font-weight:bold}
-.nav{position:fixed;bottom:0;left:0;right:0;height:72px;background:#1b1016;border-top:1px solid #48202c;display:flex;justify-content:space-around;align-items:center;z-index:5}
-.nav button{background:none;border:0;color:#b99eaa;font-size:11px}
-.nav button.active{color:#ff405b}
-.nav i{display:block;font-size:21px;font-style:normal;margin-bottom:4px}
-.page{display:none}.page.active{display:block}
-.profile{margin:18px;padding:20px;background:#21141b;border-radius:18px}
-.action{width:100%;padding:15px;margin-top:10px;border:1px solid #4b2935;background:#2a1720;color:white;border-radius:12px;text-align:left}
+body{margin:0;background:#100b0d;color:white;font-family:Arial,sans-serif;padding-bottom:85px}
+header{padding:22px 18px;background:linear-gradient(120deg,#260d13,#100b0d);border-bottom:1px solid #64202b}
+.logo{font-size:27px;font-weight:1000;color:#ff394e;text-shadow:0 0 15px #e60032}
+.logo span{color:white}
+.balance{background:#211317;border:1px solid #8d2637;border-radius:17px;padding:15px;margin:17px 0;display:flex;justify-content:space-between;align-items:center}
+.balance strong{font-size:23px;color:#ffcf62}
+main{padding:15px}
+.welcome{background:linear-gradient(135deg,#48121c,#160e12);padding:23px;border-radius:20px;border:1px solid #84283a;margin-bottom:18px}
+.welcome h1{font-size:24px;margin:0 0 8px}
+.welcome p{color:#d9bfc3;font-size:13px}
+.section-title{font-size:19px;font-weight:900;margin:22px 0 13px}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.game{background:#21171b;border:1px solid #48232d;border-radius:17px;padding:12px;text-align:center}
+.game-art{height:105px;border-radius:12px;background:radial-gradient(circle,#a52b42,#260c15 70%);display:grid;place-items:center;font-size:48px}
+.game h3{margin:11px 0 5px}
+.game p{font-size:11px;color:#bba6aa}
+button{border:0;border-radius:11px;background:linear-gradient(100deg,#b51e37,#f04452);color:white;font-weight:bold;padding:12px;width:100%;font-size:14px}
+button:active{transform:scale(.97)}
+.panel{background:#201519;border:1px solid #49232d;border-radius:17px;padding:16px;margin:12px 0}
+.hidden{display:none!important}
+.slot-machine{background:linear-gradient(135deg,#430d1a,#160b11);border:2px solid #c12b48;border-radius:20px;padding:18px;text-align:center}
+.reels{display:flex;gap:9px;justify-content:center;margin:20px 0}
+.reel{width:85px;height:90px;background:#fff1d8;color:#2c1117;border-radius:12px;display:grid;place-items:center;font-size:45px;box-shadow:inset 0 0 10px #a66}
+.slot-actions{display:flex;gap:9px}
+.slot-actions button{flex:1}
+nav{position:fixed;bottom:0;left:0;right:0;background:#1b1115;border-top:1px solid #57212e;display:flex;justify-content:space-around;padding:12px 3px calc(12px + env(safe-area-inset-bottom));z-index:5}
+nav button{background:none;color:#c9aeb5;width:25%;padding:5px;font-size:12px}
+nav button.active{color:#ff5268}
+#loader{position:fixed;inset:0;background:#100b0d;z-index:10;display:grid;place-items:center;text-align:center}
+.loader-logo{font-size:36px;font-weight:1000;color:#ff394e;animation:pulse 1s infinite alternate}
+@keyframes pulse{to{transform:scale(1.08);text-shadow:0 0 30px red}}
+.small{font-size:12px;color:#bdaab0}
 </style>
 </head>
 <body>
+<div id="loader"><div><div style="font-size:65px">🧟</div><div class="loader-logo">ZombiXCASINO</div><p>ЗАГРУЗКА МИРА...</p></div></div>
+
 <header>
- <div class="logo">Zombi<span>X</span>Casino</div>
- <div class="tag">YOUR WORLD. YOUR GAME.</div>
+ <div class="logo">ZombiX<span>CASINO</span></div>
+ <div class="balance"><div>ТВОЙ БАЛАНС</div><strong id="balance">0 Z</strong></div>
 </header>
 
-<div id="home" class="page active">
- <div class="balance">
-  <small>ВАШ БАЛАНС</small>
-  <div class="amount" id="balance">0 Z-Coins</div>
-  <button class="btn" onclick="show('wallet')">＋ Пополнить</button>
+<main>
+<section id="home">
+ <div class="welcome">
+  <h1>Добро пожаловать в ZombiX 🧟</h1>
+  <p>Выживай, играй и собирай Z-Coins в мире зомби.</p>
+  <button onclick="show('games')">НАЧАТЬ ИГРУ</button>
  </div>
- <div class="banner">
-  <strong>WELCOME TO ZOMBIX</strong>
-  <p>Твоя игровая вселенная начинается здесь.</p>
- </div>
- <h2>🎰 Популярные игры</h2>
+ <div class="section-title">🔥 Популярные игры</div>
  <div class="games">
-  <div class="game">
-   <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600" alt="Sweet Bonanza">
-   <div class="gameinfo"><b>Sweet Bonanza</b><small>Слоты</small><button class="play" onclick="game('Sweet Bonanza')">Играть</button></div>
-  </div>
-  <div class="game">
-   <img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=600" alt="Gates of Olympus">
-   <div class="gameinfo"><b>Gates of Olympus</b><small>Слоты</small><button class="play" onclick="game('Gates of Olympus')">Играть</button></div>
-  </div>
-  <div class="game">
-   <img src="https://images.unsplash.com/photo-1511882150382-421056c89033?w=600" alt="Fruit Slots">
-   <div class="gameinfo"><b>Fruit Slots</b><small>Слоты</small><button class="play" onclick="game('Fruit Slots')">Играть</button></div>
-  </div>
-  <div class="game">
-   <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?w=600" alt="Crash">
-   <div class="gameinfo"><b>Crash</b><small>Аркада</small><button class="play" onclick="game('Crash')">Играть</button></div>
-  </div>
+  <div class="game"><div class="game-art">🍬</div><h3>Candy Zombie</h3><p>Слот · 3 барабана</p><button onclick="openSlot()">ИГРАТЬ</button></div>
+  <div class="game"><div class="game-art">🧟</div><h3>Zombie Night</h3><p>Скоро появится</p><button onclick="soon()">СКОРО</button></div>
+  <div class="game"><div class="game-art">💀</div><h3>Dead City</h3><p>Скоро появится</p><button onclick="soon()">СКОРО</button></div>
+  <div class="game"><div class="game-art">🩸</div><h3>Blood Moon</h3><p>Скоро появится</p><button onclick="soon()">СКОРО</button></div>
  </div>
-</div>
+</section>
 
-<div id="wallet" class="page">
- <h2>💳 Кошелёк</h2>
- <div class="profile">
-  <p>Текущий баланс</p>
-  <div class="amount" id="walletBalance">0 Z-Coins</div>
-  <p>Пополнение будет подключено через официальные платёжные инструменты Telegram и поддерживаемого провайдера.</p>
-  <button class="action" onclick="alert('Telegram Stars подключим на серверном этапе')">⭐ Telegram Stars</button>
-  <button class="action" onclick="alert('Банковскую оплату подключим через провайдера')">💳 Банковская карта</button>
+<section id="games" class="hidden">
+ <div class="section-title">🎰 Все игры</div>
+ <div class="panel"><h3>🍬 Candy Zombie</h3><p class="small">Демонстрационный слот за виртуальные Z-Coins.</p><button onclick="openSlot()">ОТКРЫТЬ СЛОТ</button></div>
+</section>
+
+<section id="slot" class="hidden">
+ <div class="section-title">🍬 CANDY ZOMBIE</div>
+ <div class="slot-machine">
+  <div class="small">СТАВКА: 100 Z</div>
+  <div class="reels"><div class="reel" id="r1">🍒</div><div class="reel" id="r2">🍋</div><div class="reel" id="r3">💎</div></div>
+  <div id="result">Удачи тебе!</div>
+  <br><button id="spin" onclick="spin()">КРУТИТЬ · 100 Z</button>
+  <br><br><button onclick="show('home')" style="background:#38242b">НАЗАД</button>
  </div>
-</div>
+ <p class="small">Только виртуальные монеты. Вывод денег не предусмотрен.</p>
+</section>
 
-<div id="profile" class="page">
- <h2>👤 Профиль</h2>
- <div class="profile">
-  <h3 id="username">Игрок ZombiX</h3>
-  <p>Добро пожаловать в ZombiXCasino!</p>
-  <p id="profileBalance">Баланс: 0 Z-Coins</p>
-  <button class="action" onclick="show('wallet')">💰 Мой кошелёк</button>
+<section id="profile" class="hidden">
+ <div class="section-title">👤 МОЙ ПРОФИЛЬ</div>
+ <div class="panel">
+  <h2 id="username">@Гость</h2>
+  <p class="small" id="telegramId">Telegram ID не подтверждён</p>
+  <p>Статус: <strong id="role">Игрок</strong></p>
+  <div class="balance"><span>Баланс</span><strong id="profileBalance">0 Z</strong></div>
  </div>
-</div>
+ <div class="panel"><h3>💰 Z-Coins</h3><p class="small">Виртуальная игровая валюта.</p></div>
+</section>
+</main>
 
-<div id="gamepage" class="page">
- <h2 id="gameTitle">Игровой зал</h2>
- <div class="profile">
-  <p>Демонстрационный игровой режим</p>
-  <p>Здесь будут собственные игровые механики и анимации.</p>
-  <button class="action" onclick="show('home')">← Назад в казино</button>
- </div>
-</div>
-
-<div class="nav">
- <button class="active" onclick="show('home',this)"><i>🏠</i>Главная</button>
- <button onclick="show('wallet',this)"><i>💰</i>Кошелёк</button>
- <button onclick="show('profile',this)"><i>👤</i>Профиль</button>
-</div>
+<nav>
+ <button class="active" onclick="show('home',this)">🏠<br>Главная</button>
+ <button onclick="show('games',this)">🎰<br>Игры</button>
+ <button onclick="show('slot',this)">🍬<br>Слот</button>
+ <button onclick="show('profile',this)">👤<br>Профиль</button>
+</nav>
 
 <script>
+const tg=window.Telegram?.WebApp;
+tg?.ready();
+tg?.expand();
+
+const OWNER_ID="8883318440";
+const user=tg?.initDataUnsafe?.user;
+const isOwner=String(user?.id||"")===OWNER_ID;
+
+let balance;
+const key="zombix_balance_"+(user?.id||"guest");
+
+try {
+ const saved=localStorage.getItem(key);
+ balance=saved===null?(isOwner?10000:0):Number(saved);
+} catch(e) {
+ balance=isOwner?10000:0;
+}
+
+function save(){
+ try{localStorage.setItem(key,String(balance));}catch(e){}
+ updateBalance();
+}
+function updateBalance(){
+ document.getElementById("balance").textContent=balance.toLocaleString("ru-RU")+" Z";
+ document.getElementById("profileBalance").textContent=balance.toLocaleString("ru-RU")+" Z";
+}
 function show(id,btn){
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
- if(btn)btn.classList.add('active');
+ document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
+ document.getElementById(id).classList.remove("hidden");
+ document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+ if(btn)btn.classList.add("active");
 }
-function game(name){
- document.getElementById('gameTitle').textContent=name;
- show('gamepage');
+function openSlot(){show("slot");}
+function soon(){alert("Эта игра скоро появится!");}
+const symbols=["🍒","🍋","🍇","🍉","💎","🍬","7️⃣"];
+let busy=false;
+function spin(){
+ if(busy)return;
+ if(balance<100){alert("Недостаточно Z-Coins!");return;}
+ busy=true;
+ balance-=100;save();
+ document.getElementById("spin").disabled=true;
+ document.getElementById("result").textContent="БАРАБАНЫ КРУТЯТСЯ...";
+ let count=0;
+ const timer=setInterval(()=>{
+  ["r1","r2","r3"].forEach(id=>document.getElementById(id).textContent=symbols[Math.floor(Math.random()*symbols.length)]);
+  count++;
+  if(count>=15){
+   clearInterval(timer);
+   const a=symbols[Math.floor(Math.random()*symbols.length)];
+   const b=symbols[Math.floor(Math.random()*symbols.length)];
+   const c=symbols[Math.floor(Math.random()*symbols.length)];
+   document.getElementById("r1").textContent=a;
+   document.getElementById("r2").textContent=b;
+   document.getElementById("r3").textContent=c;
+   let prize=0;
+   if(a===b&&b===c)prize=1000;
+   else if(a===b||b===c||a===c)prize=200;
+   balance+=prize;save();
+   document.getElementById("result").textContent=prize?"🎉 ВЫИГРЫШ "+prize+" Z":"В этот раз без выигрыша";
+   document.getElementById("spin").disabled=false;
+   busy=false;
+  }
+ },100);
 }
+document.getElementById("username").textContent=user?(user.username?"@"+user.username:user.first_name):"Гость";
+document.getElementById("telegramId").textContent=user?"Telegram ID: "+user.id:"Открой через Telegram";
+document.getElementById("role").textContent=isOwner?"ВЛАДЕЛЕЦ":"Игрок";
+updateBalance();
+
+setTimeout(()=>document.getElementById("loader").classList.add("hidden"),1800);
 </script>
 </body>
 </html>
-
